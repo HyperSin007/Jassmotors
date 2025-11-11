@@ -94,16 +94,24 @@ jobs:
             
             # Pull latest code
             if [ -d ".git" ]; then
+              git config core.autocrlf input
               git pull origin main
             else
               git clone https://github.com/HyperSin007/Jassmotors.git .
+              git config core.autocrlf input
             fi
+            
+            # Fix line endings for all text files
+            find . -type f \( -name "*.php" -o -name "*.json" -o -name "*.yml" -o -name "*.yaml" \) -exec sed -i 's/\r$//' {} \;
             
             # Ensure .env file exists
             if [ ! -f ".env" ]; then
               echo "ERROR: .env file not found! Please create it with database credentials."
               exit 1
             fi
+            
+            # Fix .env line endings
+            sed -i 's/\r$//' .env
             
             # Export environment variables from .env for docker-compose
             set -a
