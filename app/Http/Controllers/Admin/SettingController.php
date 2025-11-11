@@ -52,6 +52,6 @@ class SettingController extends Controller
 
         Setting::clearCache();
 
-        return back()->with('success', 'Settings updated successfully!');
+        return redirect()->route('admin.settings.index')->with('success', 'Settings updated successfully!');
     }
 }
