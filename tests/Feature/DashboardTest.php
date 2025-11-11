@@ -49,6 +49,7 @@ class DashboardTest extends TestCase
 
         InvoiceItem::create([
             'invoice_id' => $invoice1->id,
+            'service_name' => 'Item 1',
             'description' => 'Item 1',
             'quantity' => 2,
             'price' => 100.00,
@@ -70,6 +71,7 @@ class DashboardTest extends TestCase
 
         InvoiceItem::create([
             'invoice_id' => $invoice2->id,
+            'service_name' => 'Item 2',
             'description' => 'Item 2',
             'quantity' => 3,
             'price' => 50.00,
@@ -102,6 +104,7 @@ class DashboardTest extends TestCase
 
         InvoiceItem::create([
             'invoice_id' => $currentInvoice->id,
+            'service_name' => 'Current Item',
             'description' => 'Current Item',
             'quantity' => 1,
             'price' => 100.00,
@@ -124,6 +127,7 @@ class DashboardTest extends TestCase
 
         InvoiceItem::create([
             'invoice_id' => $previousInvoice->id,
+            'service_name' => 'Previous Item',
             'description' => 'Previous Item',
             'quantity' => 2,
             'price' => 100.00,
@@ -157,6 +161,7 @@ class DashboardTest extends TestCase
 
         InvoiceItem::create([
             'invoice_id' => $draftInvoice->id,
+            'service_name' => 'Draft Item',
             'description' => 'Draft Item',
             'quantity' => 5,
             'price' => 100.00,
@@ -179,6 +184,7 @@ class DashboardTest extends TestCase
 
         InvoiceItem::create([
             'invoice_id' => $finalInvoice->id,
+            'service_name' => 'Final Item',
             'description' => 'Final Item',
             'quantity' => 1,
             'price' => 100.00,

@@ -47,19 +47,14 @@ class InvoiceTest extends TestCase
             'customer_email' => 'test@example.com',
             'customer_phone' => '1234567890',
             'customer_address' => '123 Test Street',
-            'invoice_date' => now()->format('Y-m-d'),
-            'due_date' => now()->addDays(30)->format('Y-m-d'),
-            'status' => 'draft',
             'items' => [
                 [
                     'service_name' => 'Service Item 1',
-                    'description' => 'Service Item 1',
                     'quantity' => 2,
                     'price' => 100.00,
                 ],
                 [
                     'service_name' => 'Service Item 2',
-                    'description' => 'Service Item 2',
                     'quantity' => 1,
                     'price' => 50.00,
                 ],
@@ -100,6 +95,7 @@ class InvoiceTest extends TestCase
 
         InvoiceItem::create([
             'invoice_id' => $invoice->id,
+            'service_name' => 'Item 1',
             'description' => 'Item 1',
             'quantity' => 2,
             'price' => 100.00,
@@ -107,6 +103,7 @@ class InvoiceTest extends TestCase
 
         InvoiceItem::create([
             'invoice_id' => $invoice->id,
+            'service_name' => 'Item 2',
             'description' => 'Item 2',
             'quantity' => 1,
             'price' => 50.00,
@@ -169,6 +166,7 @@ class InvoiceTest extends TestCase
 
         InvoiceItem::create([
             'invoice_id' => $invoice->id,
+            'service_name' => 'Service Item',
             'description' => 'Service Item',
             'quantity' => 2,
             'price' => 125.00,
