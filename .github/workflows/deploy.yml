@@ -121,10 +121,19 @@ jobs:
             # Stop and remove existing containers
             docker-compose down || true
             
-            # Build frontend assets BEFORE starting containers
+            # Build frontend assets on VPS
+            echo "Installing Node.js dependencies..."
+            npm ci --legacy-peer-deps || npm install --legacy-peer-deps
+            
             echo "Building frontend assets..."
-            npm ci || npm install
             npm run build
+            
+            # Verify build was successful
+            if [ ! -f "public/build/manifest.json" ]; then
+              echo "ERROR: Vite build failed! manifest.json not found."
+              exit 1
+            fi
+            echo "Frontend assets built successfully!"
             
             # Build and start new containers
             docker-compose up -d --build
