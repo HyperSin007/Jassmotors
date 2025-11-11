@@ -50,13 +50,13 @@ class InvoiceTest extends TestCase
             'items' => [
                 [
                     'service_name' => 'Service Item 1',
-                    'quantity' => 2,
-                    'price' => 100.00,
+                    'quantity' => '2',
+                    'price' => '100.00',
                 ],
                 [
                     'service_name' => 'Service Item 2',
-                    'quantity' => 1,
-                    'price' => 50.00,
+                    'quantity' => '1',
+                    'price' => '50.00',
                 ],
             ],
         ];
@@ -64,6 +64,7 @@ class InvoiceTest extends TestCase
         $response = $this->actingAs($this->user)
             ->post(route('admin.invoices.store'), $invoiceData);
 
+        $response->assertSessionHasNoErrors();
         $response->assertRedirect(route('admin.invoices.index'))
             ->assertSessionHas('success');
 
