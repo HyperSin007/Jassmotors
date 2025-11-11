@@ -34,6 +34,7 @@ class DashboardTest extends TestCase
     {
         // Create invoices with items
         $invoice1 = Invoice::create([
+            'date' => now(),
             'customer_name' => 'Customer 1',
             'customer_email' => 'customer1@example.com',
             'customer_phone' => '1234567890',
@@ -54,6 +55,7 @@ class DashboardTest extends TestCase
         ]);
 
         $invoice2 = Invoice::create([
+            'date' => now(),
             'customer_name' => 'Customer 2',
             'customer_email' => 'customer2@example.com',
             'customer_phone' => '1234567890',
@@ -85,6 +87,7 @@ class DashboardTest extends TestCase
     {
         // Current month invoice
         $currentInvoice = Invoice::create([
+            'date' => now(),
             'customer_name' => 'Current Customer',
             'customer_email' => 'current@example.com',
             'customer_phone' => '1234567890',
@@ -106,6 +109,7 @@ class DashboardTest extends TestCase
 
         // Previous month invoice
         $previousInvoice = Invoice::create([
+            'date' => now()->subMonth(),
             'customer_name' => 'Previous Customer',
             'customer_email' => 'previous@example.com',
             'customer_phone' => '1234567890',
@@ -138,6 +142,7 @@ class DashboardTest extends TestCase
     {
         // Draft invoice (should not be counted)
         $draftInvoice = Invoice::create([
+            'date' => now(),
             'customer_name' => 'Draft Customer',
             'customer_email' => 'draft@example.com',
             'customer_phone' => '1234567890',
@@ -159,6 +164,7 @@ class DashboardTest extends TestCase
 
         // Final invoice (should be counted)
         $finalInvoice = Invoice::create([
+            'date' => now(),
             'customer_name' => 'Final Customer',
             'customer_email' => 'final@example.com',
             'customer_phone' => '1234567890',

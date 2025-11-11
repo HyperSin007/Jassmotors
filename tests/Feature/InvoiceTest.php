@@ -42,6 +42,7 @@ class InvoiceTest extends TestCase
     public function user_can_create_invoice_with_items()
     {
         $invoiceData = [
+            'date' => now()->format('Y-m-d'),
             'customer_name' => 'Test Customer',
             'customer_email' => 'test@example.com',
             'customer_phone' => '1234567890',
@@ -51,11 +52,13 @@ class InvoiceTest extends TestCase
             'status' => 'draft',
             'items' => [
                 [
+                    'service_name' => 'Service Item 1',
                     'description' => 'Service Item 1',
                     'quantity' => 2,
                     'price' => 100.00,
                 ],
                 [
+                    'service_name' => 'Service Item 2',
                     'description' => 'Service Item 2',
                     'quantity' => 1,
                     'price' => 50.00,
@@ -82,6 +85,7 @@ class InvoiceTest extends TestCase
     public function invoice_calculates_total_correctly()
     {
         $invoice = Invoice::create([
+            'date' => now(),
             'customer_name' => 'Test Customer',
             'customer_email' => 'test@example.com',
             'customer_phone' => '1234567890',
@@ -126,6 +130,7 @@ class InvoiceTest extends TestCase
     public function user_can_view_single_invoice()
     {
         $invoice = Invoice::create([
+            'date' => now(),
             'customer_name' => 'Test Customer',
             'customer_email' => 'test@example.com',
             'customer_phone' => '1234567890',
@@ -149,6 +154,7 @@ class InvoiceTest extends TestCase
     public function user_can_generate_pdf()
     {
         $invoice = Invoice::create([
+            'date' => now(),
             'customer_name' => 'Test Customer',
             'customer_email' => 'test@example.com',
             'customer_phone' => '1234567890',
