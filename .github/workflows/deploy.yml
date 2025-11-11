@@ -122,8 +122,8 @@ jobs:
             # Install/update dependencies
             docker-compose exec -T app composer install --no-dev --optimize-autoloader --no-interaction
             
-            # Generate key if not set
-            docker-compose exec -T app php artisan key:generate --force --no-interaction || true
+            # Generate key if not set (do this FIRST before any other artisan commands)
+            docker-compose exec -T app php artisan key:generate --force --no-interaction
             
             # Run Laravel commands inside container
             docker-compose exec -T app php artisan config:clear
