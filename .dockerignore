@@ -1,0 +1,12 @@
+# JassMotors Invoice - Docker Deployment
+
+node_modules/
+vendor/
+.git/
+.env.example
+.editorconfig
+.gitignore
+.gitattributes
+*.md
+tests/
+phpunit.xml
