@@ -1,0 +1,142 @@
+==================================================
+JASSMOTORS VPS DEPLOYMENT - QUICK SETUP GUIDE
+==================================================
+
+DATABASE CREDENTIALS:
+- Database: jassmotors
+- Username: jassmotors
+- Password: GdcYz8R7zbBMafBK
+
+==================================================
+STEP 1: SSH INTO YOUR VPS
+==================================================
+ssh your_username@your_vps_ip
+
+==================================================
+STEP 2: INSTALL DOCKER (if not installed)
+==================================================
+sudo apt update
+sudo apt install -y docker.io docker-compose
+sudo systemctl start docker
+sudo systemctl enable docker
+sudo usermod -aG docker $USER
+# Logout and login again for docker group to take effect
+
+==================================================
+STEP 3: SETUP MYSQL (if not installed)
+==================================================
+sudo apt install -y mysql-server
+sudo mysql_secure_installation
+
+# Create database and user
+sudo mysql -u root -p
+
+Then in MySQL:
+CREATE DATABASE jassmotors;
+CREATE USER 'jassmotors'@'localhost' IDENTIFIED BY 'GdcYz8R7zbBMafBK';
+CREATE USER 'jassmotors'@'172.%' IDENTIFIED BY 'GdcYz8R7zbBMafBK';
+GRANT ALL PRIVILEGES ON jassmotors.* TO 'jassmotors'@'localhost';
+GRANT ALL PRIVILEGES ON jassmotors.* TO 'jassmotors'@'172.%';
+FLUSH PRIVILEGES;
+EXIT;
+
+==================================================
+STEP 4: CLONE REPOSITORY
+==================================================
+sudo mkdir -p /var/www/jassmotors
+sudo chown -R $USER:$USER /var/www/jassmotors
+cd /var/www/jassmotors
+git clone https://github.com/HyperSin007/Jassmotors.git .
+
+==================================================
+STEP 5: CREATE .env FILE
+==================================================
+cat > .env << 'EOF'
+APP_NAME=JassMotors
+APP_ENV=production
+APP_KEY=base64:nuK9S/lX2HQkwJ6nAkMZ6276Gmc44NzJW6af+1aUepY=
+APP_DEBUG=false
+APP_URL=http://YOUR_VPS_IP:8080
+
+LOG_CHANNEL=stack
+LOG_LEVEL=error
+
+DB_CONNECTION=mysql
+DB_HOST=host.docker.internal
+DB_PORT=3306
+DB_DATABASE=jassmotors
+DB_USERNAME=jassmotors
+DB_PASSWORD=GdcYz8R7zbBMafBK
+
+SESSION_DRIVER=file
+SESSION_LIFETIME=120
+
+CACHE_DRIVER=file
+QUEUE_CONNECTION=sync
+
+MAIL_MAILER=log
+EOF
+
+# Replace YOUR_VPS_IP with your actual IP
+nano .env  # Edit and replace YOUR_VPS_IP
+
+==================================================
+STEP 6: RUN SETUP SCRIPT
+==================================================
+chmod +x setup.sh
+./setup.sh
+
+==================================================
+STEP 7: CREATE ADMIN USER
+==================================================
+docker-compose exec app php artisan tinker
+
+Then in tinker:
+\App\Models\User::create(['name' => 'Admin', 'email' => 'admin@jassmotors.com', 'password' => bcrypt('your_password_here')]);
+exit
+
+==================================================
+STEP 8: ACCESS APPLICATION
+==================================================
+Open browser: http://YOUR_VPS_IP:8080
+
+Login:
+Email: admin@jassmotors.com
+Password: your_password_here
+
+==================================================
+STEP 9: CONFIGURE GITHUB SECRETS (for CI/CD)
+==================================================
+Go to: https://github.com/HyperSin007/Jassmotors/settings/secrets/actions
+
+Add these secrets:
+- VPS_HOST: your_vps_ip
+- VPS_USERNAME: your_ssh_username
+- VPS_PASSWORD: your_ssh_password
+- VPS_PORT: 22
+
+Now every push to main branch will auto-deploy!
+
+==================================================
+USEFUL COMMANDS
+==================================================
+# View logs
+docker-compose logs -f app
+
+# Restart containers
+docker-compose restart
+
+# Stop containers
+docker-compose down
+
+# Start containers
+docker-compose up -d
+
+# Run migrations
+docker-compose exec app php artisan migrate
+
+# Clear cache
+docker-compose exec app php artisan cache:clear
+docker-compose exec app php artisan config:clear
+
+==================================================

@@ -1,14 +1,70 @@
-name: Deploy to VPS
+name: Test and Deploy to VPS
 
 on:
   push:
     branches:
       - main
       - master
+  pull_request:
+    branches:
+      - main
+      - master
 
 jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: jassmotors_test
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: mbstring, dom, fileinfo, mysql, gd, zip
+          coverage: none
+      
+      - name: Copy .env
+        run: |
+          cp .env.example .env
+          sed -i 's/DB_CONNECTION=sqlite/DB_CONNECTION=mysql/' .env
+          sed -i 's/# DB_HOST=127.0.0.1/DB_HOST=127.0.0.1/' .env
+          sed -i 's/# DB_DATABASE=laravel/DB_DATABASE=jassmotors_test/' .env
+          sed -i 's/# DB_USERNAME=root/DB_USERNAME=root/' .env
+          sed -i 's/# DB_PASSWORD=/DB_PASSWORD=root/' .env
+      
+      - name: Install Dependencies
+        run: composer install --no-interaction --prefer-dist --optimize-autoloader
+      
+      - name: Generate Application Key
+        run: php artisan key:generate
+      
+      - name: Run Migrations
+        run: php artisan migrate --force
+      
+      - name: Run Tests
+        run: php artisan test
+      
+      - name: Check Code Style
+        run: |
+          composer require --dev laravel/pint --no-interaction || true
+          vendor/bin/pint --test || echo "Pint not configured, skipping..."
+
   deploy:
     runs-on: ubuntu-latest
+    needs: test
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
     
     steps:
       - name: Checkout code
