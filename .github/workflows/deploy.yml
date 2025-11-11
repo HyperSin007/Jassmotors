@@ -1,4 +1,4 @@
-name: CI/CD Pipeline - JassMotors
+name: CI/CD Pipeline - JassMotors Deployment
 
 on:
   push:
