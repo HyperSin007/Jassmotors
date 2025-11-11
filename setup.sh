@@ -52,12 +52,28 @@ if [ ! -f .env ]; then
 fi
 
 # Build and start containers
-echo "🔨 Building Docker containers..."
-docker-compose down || true
-docker-compose up -d --build
+echo "=========================================="
+echo "Building Docker containers..."
+echo "=========================================="
+docker-compose build --no-cache
 
-echo "⏳ Waiting for containers to be ready..."
-sleep 10
+echo ""
+echo "=========================================="
+echo "Starting containers..."
+echo "=========================================="
+docker-compose up -d
+
+echo ""
+echo "=========================================="
+echo "Installing dependencies..."
+echo "=========================================="
+docker-compose exec app composer install --no-dev --optimize-autoloader
+
+echo ""
+echo "=========================================="
+echo "Generating application key..."
+echo "=========================================="
+docker-compose exec app php artisan key:generate --force
 
 # Generate application key if needed
 echo "🔑 Generating application key..."

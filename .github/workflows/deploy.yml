@@ -96,6 +96,9 @@ jobs:
             # Wait for containers to be ready
             sleep 10
             
+            # Install/update dependencies
+            docker-compose exec -T app composer install --no-dev --optimize-autoloader --no-interaction
+            
             # Run Laravel commands inside container
             docker-compose exec -T app php artisan config:clear
             docker-compose exec -T app php artisan cache:clear
