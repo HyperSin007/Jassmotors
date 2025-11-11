@@ -99,6 +99,17 @@ jobs:
               git clone https://github.com/HyperSin007/Jassmotors.git .
             fi
             
+            # Ensure .env file exists
+            if [ ! -f ".env" ]; then
+              echo "ERROR: .env file not found! Please create it with database credentials."
+              exit 1
+            fi
+            
+            # Export environment variables from .env for docker-compose
+            set -a
+            source .env
+            set +a
+            
             # Stop and remove existing containers
             docker-compose down || true
             
@@ -106,20 +117,30 @@ jobs:
             docker-compose up -d --build
             
             # Wait for containers to be ready
-            sleep 10
+            sleep 15
             
             # Install/update dependencies
             docker-compose exec -T app composer install --no-dev --optimize-autoloader --no-interaction
+            
+            # Generate key if not set
+            docker-compose exec -T app php artisan key:generate --force --no-interaction || true
             
             # Run Laravel commands inside container
             docker-compose exec -T app php artisan config:clear
             docker-compose exec -T app php artisan cache:clear
             docker-compose exec -T app php artisan view:clear
             docker-compose exec -T app php artisan route:clear
+            
+            # Run migrations
             docker-compose exec -T app php artisan migrate --force
-            docker-compose exec -T app php artisan storage:link
+            
+            # Create storage link
+            docker-compose exec -T app php artisan storage:link || true
+            
+            # Cache for performance
             docker-compose exec -T app php artisan config:cache
             docker-compose exec -T app php artisan route:cache
+            docker-compose exec -T app php artisan view:cache
             
             # Set proper permissions
             docker-compose exec -T app chown -R www-data:www-data /var/www/html/storage
