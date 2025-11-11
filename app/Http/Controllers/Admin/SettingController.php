@@ -17,12 +17,12 @@ class SettingController extends Controller
     public function update(Request $request)
     {
         $validated = $request->validate([
-            'business_name' => 'required|string|max:255',
-            'business_address' => 'required|string|max:500',
-            'business_city' => 'required|string|max:255',
-            'business_phone' => 'required|string|max:50',
-            'business_email' => 'required|email|max:255',
-            'invoice_footer' => 'required|string|max:500',
+            'business_name' => 'nullable|string|max:255',
+            'business_address' => 'nullable|string|max:500',
+            'business_city' => 'nullable|string|max:255',
+            'business_phone' => 'nullable|string|max:50',
+            'business_email' => 'nullable|email|max:255',
+            'invoice_footer' => 'nullable|string|max:500',
             'invoice_footer_note' => 'nullable|string|max:500',
             'invoice_footer_contact' => 'nullable|string|max:500',
             'site_logo' => 'nullable|image|mimes:png,jpg,jpeg,svg|max:2048',
@@ -33,7 +33,9 @@ class SettingController extends Controller
             if ($key === 'site_logo' || $key === 'site_favicon') {
                 continue; // Handle files separately
             }
-            Setting::set($key, $value);
+            if ($value !== null) {
+                Setting::set($key, $value);
+            }
         }
 
         // Handle logo upload

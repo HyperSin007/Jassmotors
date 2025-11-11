@@ -105,7 +105,8 @@ class SettingTest extends TestCase
     /** @test */
     public function setting_validation_rejects_oversized_logo()
     {
-        $file = UploadedFile::fake()->image('logo.png')->size(3000); // 3MB
+        // Create a 3MB file (exceeds 2MB limit)
+        $file = UploadedFile::fake()->image('logo.png')->size(3000);
 
         $response = $this->actingAs($this->user)
             ->post(route('admin.settings.update'), [

@@ -34,7 +34,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         
         // Settings routes
         Route::get('/settings', [SettingController::class, 'index'])->name('settings.index');
-        Route::put('/settings', [SettingController::class, 'update'])->name('settings.update');
+        Route::post('/settings', [SettingController::class, 'update'])->name('settings.update');
     });
 });
 

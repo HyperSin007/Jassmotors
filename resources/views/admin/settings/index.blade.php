@@ -18,7 +18,6 @@
 
                     <form method="POST" action="{{ route('admin.settings.update') }}" enctype="multipart/form-data">
                         @csrf
-                        @method('PUT')
 
                         <!-- Logo Settings Section -->
                         <div class="mb-8">
