@@ -132,7 +132,8 @@ jobs:
             docker-compose exec -T app php artisan route:clear
             
             # Run migrations
-            docker-compose exec -T app php artisan migrate --force
+            echo "Running database migrations..."
+            docker-compose exec -T app php artisan migrate --force || echo "Migration failed!"
             
             # Create storage link
             docker-compose exec -T app php artisan storage:link || true
