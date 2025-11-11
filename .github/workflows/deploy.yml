@@ -121,6 +121,11 @@ jobs:
             # Stop and remove existing containers
             docker-compose down || true
             
+            # Build frontend assets BEFORE starting containers
+            echo "Building frontend assets..."
+            npm ci || npm install
+            npm run build
+            
             # Build and start new containers
             docker-compose up -d --build
             
