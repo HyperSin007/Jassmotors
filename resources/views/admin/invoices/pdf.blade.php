@@ -272,6 +272,15 @@
                 {{ $invoice->customer_address }}<br>
                 Phone: {{ $invoice->customer_phone }}<br>
                 Email: {{ $invoice->customer_email }}
+                @if($invoice->car_model || $invoice->license_plate)
+                    <br><br>
+                    @if($invoice->car_model)
+                        <strong>Car Model:</strong> {{ $invoice->car_model }}<br>
+                    @endif
+                    @if($invoice->license_plate)
+                        <strong>License Plate:</strong> {{ $invoice->license_plate }}
+                    @endif
+                @endif
             </div>
         </div>
     </div>

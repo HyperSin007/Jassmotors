@@ -47,6 +47,8 @@ class InvoiceTest extends TestCase
             'customer_email' => 'test@example.com',
             'customer_phone' => '1234567890',
             'customer_address' => '123 Test Street',
+            'car_model' => 'Toyota Camry 2020',
+            'license_plate' => 'ABC-123',
             'items' => [
                 [
                     'service_name' => 'Service Item 1',
@@ -73,6 +75,8 @@ class InvoiceTest extends TestCase
         $this->assertDatabaseHas('invoices', [
             'customer_name' => 'Test Customer',
             'customer_email' => 'test@example.com',
+            'car_model' => 'Toyota Camry 2020',
+            'license_plate' => 'ABC-123',
         ]);
 
         $invoice = Invoice::where('customer_email', 'test@example.com')->first();

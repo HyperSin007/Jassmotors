@@ -13,6 +13,8 @@ class Invoice extends Model
         'customer_address',
         'customer_phone',
         'customer_email',
+        'car_model',
+        'license_plate',
         'status', // draft or final
         'total_amount',
         'total_discount',

@@ -100,4 +100,19 @@ class InvoiceController extends Controller
         $invoice->update(['status' => 'final']);
         return back()->with('status', 'Invoice finalized successfully.');
     }
+
+    public function destroy(Invoice $invoice)
+    {
+        try {
+            // Delete invoice items first
+            $invoice->items()->delete();
+            
+            // Delete the invoice
+            $invoice->delete();
+            
+            return back()->with('success', 'Invoice deleted successfully.');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Error deleting invoice: ' . $e->getMessage());
+        }
+    }
 }

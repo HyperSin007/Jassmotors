@@ -48,6 +48,11 @@
                                                     <button type="submit" class="text-green-600 hover:text-green-900">Finalize</button>
                                                 </form>
                                             @endif
+                                            <form action="{{ route('admin.invoices.destroy', $invoice) }}" method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this invoice? This action cannot be undone.');">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="text-red-600 hover:text-red-900">Delete</button>
+                                            </form>
                                         </td>
                                     </tr>
                                 @empty

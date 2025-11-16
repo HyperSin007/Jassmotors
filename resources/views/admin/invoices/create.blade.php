@@ -47,6 +47,18 @@
                                               class="w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" 
                                               required></textarea>
                                 </div>
+                                <div>
+                                    <label for="car_model" class="block text-sm font-medium text-gray-700 mb-1">Car Model</label>
+                                    <input type="text" id="car_model" name="car_model" 
+                                           class="w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" 
+                                           placeholder="e.g., Toyota Camry 2020">
+                                </div>
+                                <div>
+                                    <label for="license_plate" class="block text-sm font-medium text-gray-700 mb-1">License Plate Number</label>
+                                    <input type="text" id="license_plate" name="license_plate" 
+                                           class="w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" 
+                                           placeholder="e.g., ABC-123">
+                                </div>
                             </div>
                         </div>
 

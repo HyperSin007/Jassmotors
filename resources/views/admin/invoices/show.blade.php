@@ -17,6 +17,13 @@
                             </button>
                         </form>
                     @endif
+                    <form action="{{ route('admin.invoices.destroy', $invoice) }}" method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this invoice? This action cannot be undone.');">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="inline-flex items-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-700 focus:bg-red-700 active:bg-red-900 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition ease-in-out duration-150">
+                            Delete Invoice
+                        </button>
+                    </form>
                 </div>
             </div>
 
@@ -42,6 +49,12 @@
                                 <p><span class="font-semibold">Email:</span> {{ $invoice->customer_email }}</p>
                                 <p><span class="font-semibold">Phone:</span> {{ $invoice->customer_phone }}</p>
                                 <p><span class="font-semibold">Address:</span> {{ $invoice->customer_address }}</p>
+                                @if($invoice->car_model)
+                                    <p><span class="font-semibold">Car Model:</span> {{ $invoice->car_model }}</p>
+                                @endif
+                                @if($invoice->license_plate)
+                                    <p><span class="font-semibold">License Plate:</span> {{ $invoice->license_plate }}</p>
+                                @endif
                             </div>
                         </div>
                     </div>
