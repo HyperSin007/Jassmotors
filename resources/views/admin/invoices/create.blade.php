@@ -164,9 +164,8 @@
 
             // Form submission
             document.getElementById('invoiceForm').addEventListener('submit', function(e) {
-                e.preventDefault();
-                if (validateItems()) {
-                    this.submit();
+                if (!validateItems()) {
+                    e.preventDefault();
                 }
             });
 

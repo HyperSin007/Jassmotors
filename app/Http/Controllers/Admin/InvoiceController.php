@@ -77,14 +77,19 @@ class InvoiceController extends Controller
 
             DB::commit();
 
-            return response()->json([
-                'success' => true,
-                'message' => $request->input('is_draft', false) ? 'Invoice saved as draft.' : 'Invoice created successfully.',
-                'invoice_id' => $invoice->id
-            ]);
+            $message = $request->input('is_draft', false) 
+                ? 'Invoice saved as draft successfully.' 
+                : 'Invoice created successfully.';
+
+            return redirect()
+                ->route('admin.invoices.show', $invoice)
+                ->with('success', $message);
         } catch (\Exception $e) {
             DB::rollBack();
-            return response()->json(['success' => false, 'message' => 'Error creating invoice.'], 500);
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with('error', 'Error creating invoice: ' . $e->getMessage());
         }
     }
 
