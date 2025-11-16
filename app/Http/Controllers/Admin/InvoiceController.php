@@ -30,6 +30,8 @@ class InvoiceController extends Controller
             'customer_address' => 'required|string',
             'customer_phone' => 'required|string|max:255',
             'customer_email' => 'required|email|max:255',
+            'car_model' => 'nullable|string|max:255',
+            'license_plate' => 'nullable|string|max:255',
             'items' => 'required|array|min:1',
             'items.*.service_name' => 'required|string|max:255',
             'items.*.quantity' => 'required|integer|min:1',
@@ -46,6 +48,8 @@ class InvoiceController extends Controller
                 'customer_address' => $data['customer_address'],
                 'customer_phone' => $data['customer_phone'],
                 'customer_email' => $data['customer_email'],
+                'car_model' => $data['car_model'] ?? null,
+                'license_plate' => $data['license_plate'] ?? null,
                 'status' => $request->input('is_draft', false) ? 'draft' : 'final',
             ]);
 
