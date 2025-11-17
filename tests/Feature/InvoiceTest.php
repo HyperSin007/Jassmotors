@@ -67,10 +67,9 @@ class InvoiceTest extends TestCase
             ->post(route('admin.invoices.store'), $invoiceData);
 
         $response->assertSessionHasNoErrors();
-        $response->assertStatus(200)
-            ->assertJson([
-                'success' => true,
-            ]);
+        $response->assertStatus(302)
+            ->assertRedirect()
+            ->assertSessionHas('success');
 
         $this->assertDatabaseHas('invoices', [
             'customer_name' => 'Test Customer',
