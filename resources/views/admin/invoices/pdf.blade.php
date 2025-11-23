@@ -32,6 +32,30 @@
             vertical-align: top;
         }
 
+        .company-header {
+            display: table;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+
+        .company-logo {
+            display: table-cell;
+            width: 80px;
+            vertical-align: middle;
+            padding-right: 15px;
+        }
+
+        .company-logo img {
+            max-width: 80px;
+            max-height: 80px;
+            object-fit: contain;
+        }
+
+        .company-brand {
+            display: table-cell;
+            vertical-align: middle;
+        }
+
         .company-name {
             font-size: 32px;
             font-weight: bold;
@@ -246,7 +270,20 @@
     <!-- Header with Company Info and Invoice Title -->
     <div class="header">
         <div class="company-info">
-            <div class="company-name">{{ \App\Models\Setting::get('business_name', 'Jass Motors') }}</div>
+            @php
+                $logoPath = \App\Models\Setting::get('site_logo');
+                $fullLogoPath = $logoPath ? public_path('storage/' . $logoPath) : null;
+            @endphp
+            <div class="company-header">
+                @if($fullLogoPath && file_exists($fullLogoPath))
+                    <div class="company-logo">
+                        <img src="{{ $fullLogoPath }}" alt="Logo">
+                    </div>
+                @endif
+                <div class="company-brand">
+                    <div class="company-name">{{ \App\Models\Setting::get('business_name', 'Jass Motors') }}</div>
+                </div>
+            </div>
             <div class="company-details">
                 {{ \App\Models\Setting::get('business_address', '123 Auto Street, Mechanic Lane') }}<br>
                 {{ \App\Models\Setting::get('business_city', 'City, State - 123456') }}<br>
