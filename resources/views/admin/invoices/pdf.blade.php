@@ -270,12 +270,17 @@
     <!-- Header with Company Info and Invoice Title -->
     <div class="header">
         <div class="company-info">
-            @php
-                $logoPath = \App\Models\Setting::get('site_logo');
-                $fullLogoPath = $logoPath ? public_path('storage/' . $logoPath) : null;
-            @endphp
             <div class="company-header">
-                @if($fullLogoPath && file_exists($fullLogoPath))
+                @php
+                    try {
+                        $logoPath = \App\Models\Setting::get('site_logo');
+                        $fullLogoPath = $logoPath ? public_path('storage/' . $logoPath) : null;
+                        $showLogo = $fullLogoPath && file_exists($fullLogoPath);
+                    } catch (\Exception $e) {
+                        $showLogo = false;
+                    }
+                @endphp
+                @if(isset($showLogo) && $showLogo)
                     <div class="company-logo">
                         <img src="{{ $fullLogoPath }}" alt="Logo">
                     </div>
