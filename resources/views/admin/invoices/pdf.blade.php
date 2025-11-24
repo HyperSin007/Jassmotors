@@ -33,6 +33,31 @@
         }
 
         .company-header {
+            margin-bottom: 10px;
+        }
+
+        .company-header table {
+            width: 100%;
+            border: none;
+        }
+
+        .company-header td {
+            border: none;
+            padding: 0;
+            vertical-align: middle;
+        }
+
+        .logo-cell {
+            width: 70px;
+            padding-right: 12px;
+        }
+
+        .logo-cell img {
+            max-width: 70px;
+            max-height: 70px;
+        }
+
+        .company-name {
             display: table;
             width: 100%;
             margin-bottom: 15px;
@@ -270,7 +295,29 @@
     <!-- Header with Company Info and Invoice Title -->
     <div class="header">
         <div class="company-info">
-            <div class="company-name">{{ \App\Models\Setting::get('business_name', 'Jass Motors') }}</div>
+            <div class="company-header">
+                <table>
+                    <tr>
+                        @php
+                            $logoPath = \App\Models\Setting::get('site_logo');
+                            if ($logoPath) {
+                                $fullLogoPath = public_path('storage/' . $logoPath);
+                                $showLogo = file_exists($fullLogoPath);
+                            } else {
+                                $showLogo = false;
+                            }
+                        @endphp
+                        @if($showLogo)
+                        <td class="logo-cell">
+                            <img src="{{ $fullLogoPath }}" alt="">
+                        </td>
+                        @endif
+                        <td>
+                            <div class="company-name">{{ \App\Models\Setting::get('business_name', 'Jass Motors') }}</div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
             <div class="company-details">
                 {{ \App\Models\Setting::get('business_address', '123 Auto Street, Mechanic Lane') }}<br>
                 {{ \App\Models\Setting::get('business_city', 'City, State - 123456') }}<br>
