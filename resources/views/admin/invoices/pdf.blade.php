@@ -270,25 +270,7 @@
     <!-- Header with Company Info and Invoice Title -->
     <div class="header">
         <div class="company-info">
-            <div class="company-header">
-                @php
-                    try {
-                        $logoPath = \App\Models\Setting::get('site_logo');
-                        $fullLogoPath = $logoPath ? public_path('storage/' . $logoPath) : null;
-                        $showLogo = $fullLogoPath && file_exists($fullLogoPath);
-                    } catch (\Exception $e) {
-                        $showLogo = false;
-                    }
-                @endphp
-                @if(isset($showLogo) && $showLogo)
-                    <div class="company-logo">
-                        <img src="{{ $fullLogoPath }}" alt="Logo">
-                    </div>
-                @endif
-                <div class="company-brand">
-                    <div class="company-name">{{ \App\Models\Setting::get('business_name', 'Jass Motors') }}</div>
-                </div>
-            </div>
+            <div class="company-name">{{ \App\Models\Setting::get('business_name', 'Jass Motors') }}</div>
             <div class="company-details">
                 {{ \App\Models\Setting::get('business_address', '123 Auto Street, Mechanic Lane') }}<br>
                 {{ \App\Models\Setting::get('business_city', 'City, State - 123456') }}<br>
