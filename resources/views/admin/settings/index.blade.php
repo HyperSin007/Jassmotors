@@ -74,6 +74,43 @@
                                     @enderror
                                 </div>
                             </div>
+
+                            <!-- PDF Invoice Customization -->
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6 pt-6 border-t border-gray-200">
+                                <div>
+                                    <label for="invoice_logo_width" class="block text-sm font-medium text-gray-700 mb-1">
+                                        Invoice Logo Width (px)
+                                    </label>
+                                    <input type="number" 
+                                           id="invoice_logo_width" 
+                                           name="invoice_logo_width" 
+                                           value="{{ old('invoice_logo_width', $settings['invoice_logo_width'] ?? '70') }}"
+                                           min="30"
+                                           max="200"
+                                           class="w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
+                                    <p class="mt-1 text-xs text-gray-500">Adjust logo size in PDF invoice (30-200px)</p>
+                                    @error('invoice_logo_width')
+                                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                    @enderror
+                                </div>
+
+                                <div>
+                                    <label for="invoice_brand_font_size" class="block text-sm font-medium text-gray-700 mb-1">
+                                        Brand Name Font Size (px)
+                                    </label>
+                                    <input type="number" 
+                                           id="invoice_brand_font_size" 
+                                           name="invoice_brand_font_size" 
+                                           value="{{ old('invoice_brand_font_size', $settings['invoice_brand_font_size'] ?? '32') }}"
+                                           min="16"
+                                           max="48"
+                                           class="w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
+                                    <p class="mt-1 text-xs text-gray-500">Adjust brand name size in PDF invoice (16-48px)</p>
+                                    @error('invoice_brand_font_size')
+                                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                            </div>
                         </div>
 
                         <!-- Business Information Section -->

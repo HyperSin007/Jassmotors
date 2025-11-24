@@ -48,17 +48,17 @@
         }
 
         .logo-cell {
-            width: 70px;
+            width: {{ \App\Models\Setting::get('invoice_logo_width', '70') }}px;
             padding-right: 12px;
         }
 
         .logo-cell img {
-            max-width: 70px;
-            max-height: 70px;
+            max-width: {{ \App\Models\Setting::get('invoice_logo_width', '70') }}px;
+            max-height: {{ \App\Models\Setting::get('invoice_logo_width', '70') }}px;
         }
 
         .company-name {
-            display: table;
+            font-size: {{ \App\Models\Setting::get('invoice_brand_font_size', '32') }}px;
             width: 100%;
             margin-bottom: 15px;
         }

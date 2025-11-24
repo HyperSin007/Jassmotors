@@ -25,6 +25,8 @@ class SettingController extends Controller
             'invoice_footer' => 'nullable|string|max:500',
             'invoice_footer_note' => 'nullable|string|max:500',
             'invoice_footer_contact' => 'nullable|string|max:500',
+            'invoice_logo_width' => 'nullable|integer|min:30|max:200',
+            'invoice_brand_font_size' => 'nullable|integer|min:16|max:48',
             'site_logo' => 'nullable|image|mimes:png,jpg,jpeg,svg|max:2048',
             'site_favicon' => 'nullable|image|mimes:png,jpg,jpeg,ico|max:1024',
         ]);
