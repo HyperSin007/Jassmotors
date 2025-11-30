@@ -14,10 +14,20 @@ class Setting extends Model
      */
     public static function get($key, $default = null)
     {
-        return Cache::remember("setting_{$key}", 3600, function () use ($key, $default) {
-            $setting = self::where('key', $key)->first();
-            return $setting ? $setting->value : $default;
-        });
+        try {
+            return Cache::remember("setting_{$key}", 3600, function () use ($key, $default) {
+                $setting = self::where('key', $key)->first();
+                return $setting ? $setting->value : $default;
+            });
+        } catch (\Exception $e) {
+            // Fallback to direct query if cache fails
+            try {
+                $setting = self::where('key', $key)->first();
+                return $setting ? $setting->value : $default;
+            } catch (\Exception $e2) {
+                return $default;
+            }
+        }
     }
 
     /**
